@@ -1,0 +1,29 @@
+{% set view_settings = {} %}
+{% set params = header.view.params|default({}) %}
+
+{# Parse view_settings #}
+{% if header.view %}
+    {% set view_settings = header.view %}
+{% endif %}
+{% if page.header.view %}
+    {% set view_settings = view_settings|merge(page.header.view) %}
+{%  endif %}
+{% set view_settings = config.get('plugins.view')|merge(view_settings) %}
+
+{# Get view #}
+{% set view = page.find(header.view.page) %}
+
+{% if view %}
+
+    {# Get filtered view #}
+    {% if view.header.content %}
+        {% set params = view.header.content|merge(params) %}
+    {% endif %}
+    {% set view = view.collection(params, view_settings.pagination) %}
+
+    {# Output template #}
+    {% if view_settings.template %}
+        {% include ((view_settings.template ~ '.html.twig')) with {'view': view, 'context': page} %}
+    {% endif %}
+    
+{% endif %}

@@ -1,0 +1,47 @@
+title: View
+'@extends': default
+
+form:
+  fields:
+    tabs:
+      fields:
+        view:
+          type: tab
+          title: View
+          fields:
+            basic:
+              type: section
+              title: Basic
+              underline: true
+              fields:
+                header.view.page:
+                  type: pages
+                  label: Page
+                  help: 'Specify a page to retreive view collection'
+                  validate:
+                    required: true
+                header.view.template:
+                  type: text
+                  label: 'Modular Template'
+                  placeholder: 'eg: partials/view'
+                  help: 'Specify a template to use display view collection'
+                header.view.pagination:
+                  type: toggle
+                  label: 'Pagination'
+                  highlight: 1
+                  options:
+                    1: 'Yes'
+                    0: 'No'
+                  validate:
+                    type: bool
+                  help: 'Enable/disable pagination for the view collection'
+            advanced:
+              type: section
+              title: Advanced
+              underline: true
+              fields:
+                header.view.params:
+                  type: frontmatter
+                  label: 'Parameters'
+                  validate:
+                    type: ignore
