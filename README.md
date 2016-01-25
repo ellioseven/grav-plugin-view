@@ -4,7 +4,7 @@
 
 ## Features
 
-* Override parameters from referencing page.
+* Pass parameters to a collection for complete control.
 * Assign any template to any view.
 * Add views to modular pages, allowing you to manage, order, etc.
 
@@ -40,7 +40,7 @@ You should now have all the plugin files under
 
 ## Using Parameters
 
-You can override the parameters from the referencing page, so you can do things like this:
+You can also add parameters to the collection, allowing you complete control over the view collection:
 
 ```
 items:
