@@ -8,7 +8,7 @@
 {% if page.header.view %}
     {% set view_settings = view_settings|merge(page.header.view) %}
 {%  endif %}
-{% set view_settings = config.get('plugins.view')|merge(view_settings) %}
+{% set view_settings = config.get('plugins.view').header.view|merge(view_settings) %}
 
 {# Output view #}
 {% set view = page.find(header.view.page).collection(params, view_settings.pagination) %}
