@@ -1,3 +1,9 @@
+# v1.1.1
+## 01/25/2016
+
+1. [](#improved)
+    * Fixed default template not being called.
+
 # v1.1.0
 ## 01/25/2016
 
