@@ -1,6 +1,6 @@
 name: View
 version: 1.1.0
-description: A plugin that allows you find a page and it's collection to a template.
+description: A plugin that allows you to pass a page collection to a template.
 icon: cog
 
 form:
