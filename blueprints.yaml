@@ -9,4 +9,4 @@ form:
       type: text
       label: 'Default Modular Template'
       placeholder: 'eg: partials/view'
-      help: 'Specify a template to use display view collection'
+      help: 'Specify a default template to use display view collection'
