@@ -1,7 +1,16 @@
 name: View
 version: 1.1.1
-description: A plugin that allows you to pass a page collection to a template.
+description: "A plugin that allows you to pass a page collection to a template."
 icon: cog
+author:
+  name: Elliot Mitchum
+  email: elliot.mitchum@ellioseven.com
+  url: https://github.com/ellioseven
+homepage: https://github.com/ellioseven/grav-plugin-view
+demo: -
+keywords: view, collection, modular
+bugs: https://github.com/ellioseven/grav-plugin-view/issues
+license: MIT
 
 form:
   fields:
