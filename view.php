@@ -107,6 +107,7 @@ class ViewPlugin extends Plugin
         $view_header = $page->header()->view;
         $params = isset($view_header['params']) ? $view_header['params'] : false;
         $filter = isset($view_header['limit']) ? $view_header['limit'] : false;
+        $pagination = isset($view_header['pagination']) ? $view_header['pagination'] : false;
 
         // Parse params or set to default.
         if ($params) {
@@ -122,7 +123,7 @@ class ViewPlugin extends Plugin
             $this->target = $page->find($view_header['page']);
 
             // Get the target page collection.
-            $items = $this->target->collection($params);
+            $items = $this->target->collection($params, $pagination);
 
             // Filter the page collection.
             if ($items && $filter) {
@@ -132,7 +133,7 @@ class ViewPlugin extends Plugin
         } else {
 
             // Get the page collection.
-            $items = $page->collection($params);
+            $items = $page->collection($params, $pagination);
 
         }
 
