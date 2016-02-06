@@ -44,6 +44,6 @@ form:
                 header.view.params:
                   type: frontmatter
                   label: 'Parameters'
-                  default: 'content'
+                  default: false
                   validate:
                     type: ignore

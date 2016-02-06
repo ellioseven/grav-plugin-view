@@ -17,7 +17,7 @@
 {% endif %}
 
 {# Set view #}
-{% set items = page.find(header.view.page).collection(header.view.params, header.view.pagination) %}
+{% set items = page.find(header.view.page).collection(header.view.params|default('content'), header.view.pagination) %}
 
 {# Output view #}
 {% if items and view_settings.template %}
