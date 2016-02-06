@@ -57,11 +57,19 @@ class ViewPlugin extends Plugin
     {
         $page = $event['page'];
 
-        // Parse frontmatter and return to vars.
-        if (isset($page->header()->view['params'])) {
+        // Get view from page or exit.
+        if (isset($page->header()->view)) {
             $view = $page->header()->view;
-            $view['params'] = (array) YamlParser::parse($view['params']);
-            $page->modifyHeader('view', $view);
+        } else {
+            return;
         }
+
+        // Parse and set params frontmatter.
+        if (isset($view['params'])) {
+            $view['params'] = (array) YamlParser::parse($view['params']);
+        }
+
+        // Set modified header.
+        $page->modifyHeader('view', $view);
     }
 }
