@@ -27,15 +27,14 @@ form:
                   help: Specify a template to use display view collection
                 header.view.pagination:
                   type: toggle
-                  label: 'Pagination'
-                  highlight: 1
+                  label: Pagination
+                  help: Enable/disable pagination for the view collection
+                  default: 0
                   options:
                     1: Yes
                     0: No
                   validate:
                     type: bool
-                  help: 'Enable/disable pagination for the view collection'
-                  default: false
             advanced:
               type: section
               title: Advanced
