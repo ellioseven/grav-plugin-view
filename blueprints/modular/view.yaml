@@ -17,9 +17,18 @@ form:
                 header.view.page:
                   type: pages
                   label: Page
-                  help: 'Specify a page to retreive view collection'
+                  help: Specify a page to retreive view collection
+                  show_root: true
+                header.view.filter:
+                  type: toggle
+                  label: Filter
+                  help: Only display results from the selected pages children
+                  default: 0
+                  options:
+                      1: Yes
+                      0: No
                   validate:
-                    required: true
+                      type: bool
                 header.view.template:
                   type: text
                   label: Modular Template
