@@ -44,7 +44,7 @@ You can also add parameters to the collection, allowing you complete control ove
 
 ```
 items:
-    '@taxonomy.category': 'animals'
+    '@taxonomy.category': 'Animals'
 ``` 
 
 ## View Template
