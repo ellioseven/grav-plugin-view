@@ -14,7 +14,7 @@ license: MIT
 
 form:
   fields:
-    header.view.template:
+    template:
       type: text
       label: 'Default Modular Template'
       placeholder: 'eg: partials/view'
