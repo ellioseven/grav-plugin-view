@@ -1,8 +1,9 @@
 {% set view_settings = {} %}
 
-{# Set view settings from header. #}
-{% if header.view %}
-    {% set view_settings = header.view %}
+{# Set view settings from plugin config. #}
+{% set config = config.get('plugins.view') %}
+{% if config.header.view %}
+    {% set view_settings = view_settings|merge(config.header.view) %}
 {% endif %}
 
 {# Set view settings from page. #}
@@ -10,10 +11,9 @@
     {% set view_settings = view_settings|merge(page.header.view) %}
 {%  endif %}
 
-{# Set view settings from plugin config. #}
-{% set config = config.get('plugins.view') %}
-{% if config.header.view %}
-    {% set view_settings = view_settings|merge(config.header.view) %}
+{# Set view settings from header. #}
+{% if header.view %}
+    {% set view_settings = view_settings|merge(header.view) %}
 {% endif %}
 
 {# Set view #}
