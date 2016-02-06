@@ -35,6 +35,7 @@ form:
                   validate:
                     type: bool
                   help: 'Enable/disable pagination for the view collection'
+                  default: false
             advanced:
               type: section
               title: Advanced
@@ -43,5 +44,6 @@ form:
                 header.view.params:
                   type: frontmatter
                   label: 'Parameters'
+                  default: 'content'
                   validate:
                     type: ignore

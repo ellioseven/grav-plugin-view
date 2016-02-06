@@ -49,17 +49,17 @@ items:
 
 ## View Template
  
-You will have 2 extra variables available to you:
+You will have the `view` variable available to you, which contains the items and settings.
 
-1. `view` - The collection made from the referencing page.
-2. `context` - The modular template used to display the view.
+* `view.items` - The view's collection items.
+* `view.settings` - The settings used to build the collection items.
 
 A simple template may look like so:
 
 ```
-<h1>{{ context.title }}</h1>
+<h1>{{ page.title }}</h1>
 <ul>
-    {% for item in view %}
+    {% for item in view.items %}
         <li>{{ item.title }}</li>
     {% endfor %}
 </ul>

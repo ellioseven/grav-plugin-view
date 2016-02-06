@@ -17,11 +17,10 @@
 {% endif %}
 
 {# Set view #}
-{% set params = header.view.params|default('content') %}
-{% set pagination = header.view.pagination|default(false) %}
-{% set view = page.find(header.view.page).collection(params, pagination) %}
+{% set items = page.find(header.view.page).collection(header.view.params, header.view.pagination) %}
 
 {# Output view #}
-{% if view and view_settings.template %}
-    {% include ((view_settings.template ~ '.html.twig')) with {'view': view, 'context': page} %}
+{% if items and view_settings.template %}
+    {% set view = {'items': items, 'settings': view_settings} %}
+    {% include ((view_settings.template ~ '.html.twig')) with {'view': view} %}
 {% endif %}

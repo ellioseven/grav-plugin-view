@@ -66,8 +66,9 @@ class ViewPlugin extends Plugin
             return;
         }
 
-        // Parse and set params frontmatter.
-        if (isset($view['params'])) {
+        // Parse and set params frontmatter if set and not default.
+        // @todo Find a better way of referencing default 'content'.
+        if (isset($view['params']) && 'content' !== $view['params']) {
             $view['params'] = (array) YamlParser::parse($view['params']);
         }
 
