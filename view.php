@@ -52,6 +52,8 @@ class ViewPlugin extends Plugin
 
     /**
      * Set needed variables to display view.
+     *
+     * @param $event
      */
     public function onTwigPageVariables($event)
     {
