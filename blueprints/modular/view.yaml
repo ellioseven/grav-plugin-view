@@ -42,7 +42,7 @@ form:
               fields:
                 header.view.params:
                   type: frontmatter
-                  label: 'Parameters'
+                  label: Parameters
                   default: false
                   validate:
                     type: ignore
