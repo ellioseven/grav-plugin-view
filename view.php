@@ -29,8 +29,7 @@ class ViewPlugin extends Plugin
             'onGetPageTemplates' => ['onGetPageTemplates', 0],
             'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
             'onTwigPageVariables' => ['onTwigPageVariables', 0],
-            'onPageInitialized' => ['onPageInitialized', 0],
-            'onCollectionProcessed' => ['onCollectionProcessed', -1]
+            'onPageInitialized' => ['onPageInitialized', 0]
         ];
     }
 
@@ -79,68 +78,107 @@ class ViewPlugin extends Plugin
      */
     public function onTwigPageVariables($event)
     {
-        // Get variables.
+        /** @var Page $page */
         $page = $event['page'];
-        $config = $this->mergeConfig($page);
-        $header = $page->header();
+
+        /** @var Twig $twig */
+        $twig = $this->grav['twig'];
 
         // Exit if no view in page header.
-        if (!isset($header->view)) {
+        if (!isset($page->header()->view)) {
             return;
         }
 
-        // Define view vars.
-        $view_header['template'] = $config['template'];
-        $view_header['items'] = $this->getItems($page);
-        $view_header['view_url'] = $page->parent()->url();
+        // Merge config.
+        $config = $this->mergeConfig($page);
 
-        // Set page header.
-        $page->modifyHeader('view', $view_header);
+        // Parse and set params to page header.
+        $page->header()->view['params'] = $this->getParams($page);
+
+        // Set twig vars.
+        $twig->twig_vars['view']['params'] = $page->header()->view['params'];
+        $twig->twig_vars['view']['collection'] = $this->getCollection($page);
+        $twig->twig_vars['view']['template'] = $config->get('template');
+        $twig->twig_vars['view']['active'] = $this->getActive($page);
+
     }
 
     /**
-     * Get view items from page collection.
+     * Get and parse params from page header.
+     *
+     * @param $page
+     * @return array|string
+     */
+    private function getParams($page) {
+
+        $params = 'content';
+
+        // Check for params in page header.
+        if (isset($page->header()->view['params'])) {
+
+            // Convert from Yaml.
+            $params = (array) YamlParser::parse($page->header()->view['params']);
+
+            // Items are needed.
+            if (!isset($params['items'])) {
+                $params['items'] = '@self.children';
+            }
+        }
+
+        return $params;
+
+    }
+
+    /**
+     * Get and parse view collection from page header.
      *
      * @param $page
      * @return mixed
      */
-    private function getItems($page) {
+    private function getCollection($page) {
 
         // Get vars.
-        $view_header = $page->header()->view;
-        $params = isset($view_header['params']) ? $view_header['params'] : false;
-        $filter = isset($view_header['limit']) ? $view_header['limit'] : false;
-        $pagination = isset($view_header['pagination']) ? $view_header['pagination'] : false;
+        $reference = isset($page->header()->view['reference']) ? $page->header()->view['reference'] : '/';
+        $params = isset($page->header()->view['params']) ? $page->header()->view['params'] : 'content';
+        $filter = isset($params['limit']) ? $params['limit'] : false;
+        $pagination = isset($params['pagination']) ? $params['pagination'] : false;
 
-        // Parse params or set to default.
-        if ($params) {
-            $params = (array) YamlParser::parse($params);
-        } else {
-            $params = 'content';
-        }
-
-        // Check if page root.
-        if ($view_header['page'] != '/') {
+        // Check if reference root.
+        if ($reference !== '/') {
 
             // Set the target page.
-            $this->target = $page->find($view_header['page']);
+            $this->target = $page->find($reference);
 
             // Get the target page collection.
-            $items = $this->target->collection($params, $pagination);
+            $collection = $this->target->collection($params, $pagination);
 
             // Filter the page collection.
-            if ($items && $filter) {
-                $items = $items->filter(array($this, 'filter'));
+            if ($collection && $filter) {
+                $collection = $collection->filter(array($this, 'filter'));
             }
 
         } else {
 
             // Get the page collection.
-            $items = $page->collection($params, $pagination);
+            $collection = $page->collection($params, $pagination);
 
         }
 
-        return $items;
+        return $collection;
+
+    }
+
+    private function getActive($page) {
+
+        $uri = $this->grav['uri'];
+        $view_id = trim($page->slug(), "_");
+        $view = $uri->param('view');
+
+        if ($view == $view_id) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
 
@@ -149,21 +187,6 @@ class ViewPlugin extends Plugin
         // @todo gotta figure this out somehow
         $page = $this->grav['page'];
         $page->modifyHeader('pagination', true);
-
-    }
-
-    public function onCollectionProcessed($event) {
-
-        // @todo gotta figure this out somehow
-        $collection = $event['collection'];
-        $params = $collection->params();
-
-        if (isset($params['pagination'])) {
-            dump($params['pagination']->hasPrev());
-        } else {}
-
-
-
 
     }
 

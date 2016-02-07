@@ -1,7 +1,10 @@
-{% if header.view.items and header. view.template %}
-    {% include ((header.view.template ~ '.html.twig')) with {'view': view} %}
+{% set base_url = page.parent.url %}
+{% set pagination = view.collection.params.pagination %}
+
+{% if view.collection and view.template %}
+    {% include ((view.template ~ '.html.twig')) with {'view': view} %}
 {% endif %}
 
-{% if header.view.items.params.pagination %}
-    {% include 'partials/pagination.html.twig' with {'base_url': header.view.base_url, 'pagination': header.view.items.params.pagination} %}
-{% endif %}
+{% if pagination %}
+    {% include 'partials/pagination.html.twig' with {'base_url': base_url, 'pagination': pagination, 'view': view} %}
+{% endif %}g
