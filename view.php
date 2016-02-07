@@ -28,7 +28,9 @@ class ViewPlugin extends Plugin
             'onPluginsInitialized' => ['onPluginsInitialized', 0],
             'onGetPageTemplates' => ['onGetPageTemplates', 0],
             'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
-            'onTwigPageVariables' => ['onTwigPageVariables', 0]
+            'onTwigPageVariables' => ['onTwigPageVariables', 0],
+            'onPageInitialized' => ['onPageInitialized', 0],
+            'onCollectionProcessed' => ['onCollectionProcessed', -1]
         ];
     }
 
@@ -90,6 +92,7 @@ class ViewPlugin extends Plugin
         // Define view vars.
         $view_header['template'] = $config['template'];
         $view_header['items'] = $this->getItems($page);
+        $view_header['view_url'] = $page->parent()->url();
 
         // Set page header.
         $page->modifyHeader('view', $view_header);
@@ -138,6 +141,29 @@ class ViewPlugin extends Plugin
         }
 
         return $items;
+
+    }
+
+    public function onPageInitialized() {
+
+        // @todo gotta figure this out somehow
+        $page = $this->grav['page'];
+        $page->modifyHeader('pagination', true);
+
+    }
+
+    public function onCollectionProcessed($event) {
+
+        // @todo gotta figure this out somehow
+        $collection = $event['collection'];
+        $params = $collection->params();
+
+        if (isset($params['pagination'])) {
+            dump($params['pagination']->hasPrev());
+        } else {}
+
+
+
 
     }
 

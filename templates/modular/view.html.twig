@@ -1,3 +1,7 @@
-{% if header.view.items and header.view.template %}
+{% if header.view.items and header. view.template %}
     {% include ((header.view.template ~ '.html.twig')) with {'view': view} %}
+{% endif %}
+
+{% if header.view.items.params.pagination %}
+    {% include 'partials/pagination.html.twig' with {'base_url': header.view.base_url, 'pagination': header.view.items.params.pagination} %}
 {% endif %}
