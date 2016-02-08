@@ -29,8 +29,7 @@ class ViewPlugin extends Plugin
             'onGetPageTemplates' => ['onGetPageTemplates', 0],
             'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
             'onTwigPageVariables' => ['onTwigPageVariables', 0],
-            'onPageInitialized' => ['onPageInitialized', 0],
-            'onCollectionProcessed' => ['onCollectionProcessed', -1]
+            'onPageProcessed' => ['onPageProcessed', 0]
         ];
     }
 
