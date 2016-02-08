@@ -82,21 +82,25 @@ class ViewPlugin extends Plugin
     {
         /** @var Page $page */
         $page = $event['page'];
-        $config = $this->mergeConfig($page);
-        $header = $page->header();
+
+        /** @var Twig $twig */
+        $twig = $this->grav['twig'];
 
         // Exit if no view in page header.
-        if (!isset($header->view)) {
+        if (!isset($page->header()->view)) {
             return;
         }
 
-        // Define view vars.
-        $view_header['template'] = $config['template'];
-        $view_header['items'] = $this->getItems($page);
-        $view_header['view_url'] = $page->parent()->url();
+        // Merge config.
+        $config = $this->mergeConfig($page);
 
-        // Set page header.
-        $page->modifyHeader('view', $view_header);
+        // Parse and set params to page header.
+        $page->header()->view['params'] = $this->getParams($page);
+
+        // Set twig vars.
+        $twig->twig_vars['view']['collection'] = $this->getCollection($page);
+        $twig->twig_vars['view']['template'] = $config->get('template');
+
     }
 
     /**
