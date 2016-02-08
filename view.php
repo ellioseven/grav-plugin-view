@@ -129,23 +129,40 @@ class ViewPlugin extends Plugin
 
     }
 
-    public function onPageInitialized() {
+    /**
+     * Get and parse view collection from page header.
+     *
+     * @param $page
+     * @return mixed
+     */
+    private function getCollection($page) {
 
-        // @todo gotta figure this out somehow
-        $page = $this->grav['page'];
-        $page->modifyHeader('pagination', true);
+        // Get vars.
+        $reference = isset($page->header()->view['reference']) ? $page->header()->view['reference'] : '/';
+        $params = isset($page->header()->view['params']) ? $page->header()->view['params'] : 'content';
+        $filter = isset($page->header()->view['filter']) ? $page->header()->view['filter'] : false;
+        $pagination = isset($params['pagination']) ? $params['pagination'] : false;
+
+        // Check if reference root.
+        if ($reference !== '/') {
+            // Set the target page, used for filtering.
+            $this->target = $page->find($reference);
+            /* @var Collection $collection */
+            $collection = $this->target->collection($params, $pagination);
+        } else {
+            /* @var Collection $collection */
+            $collection = $page->collection($params, $pagination);
+        }
+
+        // Filter the page collection.
+        if ($collection && $filter) {
+            /* @var Collection $collection */
+            $collection = $collection->filter(array($this, 'filter'));
+        }
+
+        return $collection;
 
     }
-
-    public function onCollectionProcessed($event) {
-
-        // @todo gotta figure this out somehow
-        $collection = $event['collection'];
-        $params = $collection->params();
-
-        if (isset($params['pagination'])) {
-            dump($params['pagination']->hasPrev());
-        } else {}
 
 
 
