@@ -5,6 +5,7 @@ namespace Grav\Plugin;
 use \Grav\Common\Plugin;
 use \Grav\Common\Grav;
 use \Grav\Common\Page;
+use OAuth\Common\Exception\Exception;
 use \Symfony\Component\Yaml\Yaml as YamlParser;
 
 class ViewPlugin extends Plugin
@@ -115,13 +116,20 @@ class ViewPlugin extends Plugin
 
         // Check for params in page header.
         if (isset($page->header()->view['params'])) {
-            // Convert from Yaml.
-            if (is_readable($page->header()->view['params'])) {
+
+            // Try to convert Yaml.
+            try {
                 $params = (array) YamlParser::parse($page->header()->view['params']);
-                // Items are needed. Get page children by default.
-                if (!isset($params['items'])) {
-                    $params['items'] = '@self.children';
-                }
+            }
+
+            // Else throw warning.
+            catch(\Exception $e) {
+                $this->grav['messages']->add('Caught exception: ' .  $e->getMessage() . "\n");
+            }
+
+            // Items are needed. Get page children by default.
+            if (!isset($params['items'])) {
+                $params['items'] = '@self.children';
             }
         }
 
