@@ -13,6 +13,8 @@
     * Removed pagination field
     * Show root in modular template field
     * Removed all logic from view.html.twig
+1. [](#bugfix)
+    * Check for malformed yaml before parsing
 
 # v1.1.2
 ## 02/06/2016
