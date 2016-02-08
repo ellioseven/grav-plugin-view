@@ -115,15 +115,13 @@ class ViewPlugin extends Plugin
 
         // Check for params in page header.
         if (isset($page->header()->view['params'])) {
-
             // Convert from Yaml.
             if (is_readable($page->header()->view['params'])) {
                 $params = (array) YamlParser::parse($page->header()->view['params']);
-            }
-
-            // Items are needed. Get page children by default.
-            if (!isset($params['items'])) {
-                $params['items'] = '@self.children';
+                // Items are needed. Get page children by default.
+                if (!isset($params['items'])) {
+                    $params['items'] = '@self.children';
+                }
             }
         }
 
