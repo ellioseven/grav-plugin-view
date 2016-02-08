@@ -109,43 +109,23 @@ class ViewPlugin extends Plugin
      * @param $page
      * @return array|string
      */
-    private function getItems($page) {
+    private function getParams($page) {
 
-        // Get vars.
-        $view_header = $page->header()->view;
-        $params = isset($view_header['params']) ? $view_header['params'] : false;
-        $filter = isset($view_header['limit']) ? $view_header['limit'] : false;
-        $pagination = isset($view_header['pagination']) ? $view_header['pagination'] : false;
+        $params = 'content';
 
-        // Parse params or set to default.
-        if ($params) {
-            $params = (array) YamlParser::parse($params);
-        } else {
-            $params = 'content';
-        }
+        // Check for params in page header.
+        if (isset($page->header()->view['params'])) {
 
-        // Check if page root.
-        if ($view_header['page'] != '/') {
+            // Convert from Yaml.
+            $params = (array) YamlParser::parse($page->header()->view['params']);
 
-            // Set the target page.
-            $this->target = $page->find($view_header['page']);
-
-            // Get the target page collection.
-            $items = $this->target->collection($params, $pagination);
-
-            // Filter the page collection.
-            if ($items && $filter) {
-                $items = $items->filter(array($this, 'filter'));
+            // Items are needed. Get page children by default.
+            if (!isset($params['items'])) {
+                $params['items'] = '@self.children';
             }
-
-        } else {
-
-            // Get the page collection.
-            $items = $page->collection($params, $pagination);
-
         }
 
-        return $items;
+        return $params;
 
     }
 
