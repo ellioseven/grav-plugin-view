@@ -1,8 +1,13 @@
+{# Set vars for pagination #}
+{% set base_url = page.parent.url %}
+{% set pagination = view.collection.params.pagination %}
+
 {# Loop through pagination #}
 {% if view.collection and view.template %}
     {% include view.template ~ '.html.twig' with {'view': view} %}
 {% endif %}
 
-{% if header.view.items.params.pagination %}
-    {% include 'partials/pagination.html.twig' with {'base_url': header.view.base_url, 'pagination': header.view.items.params.pagination} %}
+{# Pass to pagination if available. #}
+{% if pagination|length > 1 %}
+    {% include 'partials/pagination.html.twig' with {'base_url': base_url, 'pagination': pagination, 'view': view} %}
 {% endif %}
