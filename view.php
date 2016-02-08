@@ -63,6 +63,8 @@ class ViewPlugin extends Plugin
     public function onGetPageTemplates($event)
     {
         $types = $event->types;
+
+        /* @var Locator $locator */
         $locator = Grav::instance()['locator'];
 
         // Set blueprints & templates.
@@ -78,7 +80,7 @@ class ViewPlugin extends Plugin
      */
     public function onTwigPageVariables($event)
     {
-        // Get variables.
+        /** @var Page $page */
         $page = $event['page'];
         $config = $this->mergeConfig($page);
         $header = $page->header();
@@ -98,10 +100,10 @@ class ViewPlugin extends Plugin
     }
 
     /**
-     * Get view items from page collection.
+     * Get and parse params from page header.
      *
      * @param $page
-     * @return mixed
+     * @return array|string
      */
     private function getItems($page) {
 
@@ -175,8 +177,10 @@ class ViewPlugin extends Plugin
      */
     public function filter($value, $key) {
 
-        // If key is not in target page collection, filter it from results.
+        /* @var Collection $children */
         $children = $this->target->children();
+
+        // If key is not in target page collection, filter it from results.
         if ($children->offsetGet($key)) {
             return true;
         } else {
