@@ -29,7 +29,7 @@ class ViewPlugin extends Plugin
             'onGetPageTemplates' => ['onGetPageTemplates', 0],
             'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
             'onTwigPageVariables' => ['onTwigPageVariables', 0],
-            'onPageInitialized' => ['onPageInitialized', 0]
+            'onPageProcessed' => ['onPageProcessed', 0]
         ];
     }
 
@@ -99,7 +99,6 @@ class ViewPlugin extends Plugin
         $twig->twig_vars['view']['params'] = $page->header()->view['params'];
         $twig->twig_vars['view']['collection'] = $this->getCollection($page);
         $twig->twig_vars['view']['template'] = $config->get('template');
-        $twig->twig_vars['view']['active'] = $this->getActive($page);
 
     }
 
@@ -168,25 +167,27 @@ class ViewPlugin extends Plugin
 
     }
 
-    private function getActive($page) {
+    /**
+     * Implements 'onPageProcessed' event.
+     * - Sets parent page header pagination to true, enabling the pagination
+     * plugin to run for this page.
+     *
+     * @todo Work on concept.
+     *
+     * @param $event
+     */
+    public function onPageProcessed($event) {
 
-        $uri = $this->grav['uri'];
-        $view_id = trim($page->slug(), "_");
-        $view = $uri->param('view');
+        $page = $event['page'];
 
-        if ($view == $view_id) {
-            return true;
-        } else {
-            return false;
+        if ('modular/view' == $page->value('name')) {
+            if (isset($page->header()->view['params'])) {
+                $params = $this->getParams($page);
+                if (isset($params['pagination']) && $params['pagination']) {
+                    $page->parent()->modifyHeader('pagination', true);
+                }
+            }
         }
-
-    }
-
-    public function onPageInitialized() {
-
-        // @todo gotta figure this out somehow
-        $page = $this->grav['page'];
-        $page->modifyHeader('pagination', true);
 
     }
 
