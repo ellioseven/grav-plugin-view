@@ -14,7 +14,7 @@ class ViewPlugin extends Plugin
     /**
      * @var Page
      */
-    private $target;
+    private $reference;
 
     /**
      * Implements 'getSubscribedEvents' event.
@@ -153,10 +153,10 @@ class ViewPlugin extends Plugin
 
         // Check if reference root.
         if ($reference !== '/') {
-            // Set the target page, used for filtering.
-            $this->target = $page->find($reference);
+            // Set the reference page, used for filtering.
+            $this->reference = $page->find($reference);
             /* @var Collection $collection */
-            $collection = $this->target->collection($params, $pagination);
+            $collection = $this->reference->collection($params, $pagination);
         } else {
             /* @var Collection $collection */
             $collection = $page->collection($params, $pagination);
@@ -204,9 +204,9 @@ class ViewPlugin extends Plugin
     public function filter($value, $key) {
 
         /* @var Collection $children */
-        $children = $this->target->children();
+        $children = $this->reference->children();
 
-        // If key is not in target page collection, filter it from results.
+        // If key is not in reference page collection, filter it from results.
         if ($children->offsetGet($key)) {
             return true;
         } else {
