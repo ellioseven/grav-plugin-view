@@ -1,5 +1,6 @@
-{% if header.view.items and header. view.template %}
-    {% include ((header.view.template ~ '.html.twig')) with {'view': view} %}
+{# Loop through pagination #}
+{% if view.collection and view.template %}
+    {% include view.template ~ '.html.twig' with {'view': view} %}
 {% endif %}
 
 {% if header.view.items.params.pagination %}
