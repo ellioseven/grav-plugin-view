@@ -1,3 +1,19 @@
+# v1.3.1
+## 02/08/2016
+
+1. [](#new)
+    * Added support for pagination
+    * Added getParams method to parse params
+    * Added getCollection method to get view collection
+    * Added filter field to filter collection to selected page children
+1. [](#improved)
+    * Rename view.page field to view.reference to avoid confusion
+    * Rename view.item to view.collection to avoid confusion
+    * Using twig vars instead of dynamic header vars
+    * Removed pagination field
+    * Show root in modular template field
+    * Removed all logic from view.html.twig
+
 # v1.1.2
 ## 02/06/2016
 
