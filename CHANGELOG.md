@@ -1,3 +1,12 @@
+# v1.3.1
+## 02/06/2016
+
+1. [](#improved)
+    * Cleaner modular template by changing passed variables
+1. [](#bugfix)
+    * Check for view header before parsing variables in view.php
+    * Fixed parsing of settings in view.html.twig
+
 # v1.1.2
 ## 02/06/2016
 

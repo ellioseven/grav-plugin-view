@@ -63,6 +63,8 @@ class ViewPlugin extends Plugin
     public function onGetPageTemplates($event)
     {
         $types = $event->types;
+
+        /* @var Locator $locator */
         $locator = Grav::instance()['locator'];
 
         // Set blueprints & templates.
@@ -118,7 +120,7 @@ class ViewPlugin extends Plugin
             // Convert from Yaml.
             $params = (array) YamlParser::parse($page->header()->view['params']);
 
-            // Items are needed.
+            // Items are needed. Get page children by default.
             if (!isset($params['items'])) {
                 $params['items'] = '@self.children';
             }
@@ -144,23 +146,19 @@ class ViewPlugin extends Plugin
 
         // Check if reference root.
         if ($reference !== '/') {
-
-            // Set the target page.
+            // Set the target page, used for filtering.
             $this->target = $page->find($reference);
-
-            // Get the target page collection.
+            /* @var Collection $collection */
             $collection = $this->target->collection($params, $pagination);
-
-            // Filter the page collection.
-            if ($collection && $filter) {
-                $collection = $collection->filter(array($this, 'filter'));
-            }
-
         } else {
-
-            // Get the page collection.
+            /* @var Collection $collection */
             $collection = $page->collection($params, $pagination);
+        }
 
+        // Filter the page collection.
+        if ($collection && $filter) {
+            /* @var Collection $collection */
+            $collection = $collection->filter(array($this, 'filter'));
         }
 
         return $collection;
@@ -172,8 +170,6 @@ class ViewPlugin extends Plugin
      * - Sets parent page header pagination to true, enabling the pagination
      * plugin to run for this page.
      *
-     * @todo Work on concept.
-     *
      * @param $event
      */
     public function onPageProcessed($event) {
@@ -181,12 +177,11 @@ class ViewPlugin extends Plugin
         /* @var Page $page */
         $page = $event['page'];
 
+        // If page is a view.
         if ('modular/view' == $page->value('name')) {
-            if (isset($page->header()->view['params'])) {
-                $params = $this->getParams($page);
-                if (isset($params['pagination']) && $params['pagination']) {
-                    $page->parent()->modifyHeader('pagination', true);
-                }
+            $params = $this->getParams($page);
+            if (isset($params['pagination']) && $params['pagination']) {
+                $page->parent()->modifyHeader('pagination', true);
             }
         }
 
@@ -201,8 +196,10 @@ class ViewPlugin extends Plugin
      */
     public function filter($value, $key) {
 
-        // If key is not in target page collection, filter it from results.
+        /* @var Collection $children */
         $children = $this->target->children();
+
+        // If key is not in target page collection, filter it from results.
         if ($children->offsetGet($key)) {
             return true;
         } else {
