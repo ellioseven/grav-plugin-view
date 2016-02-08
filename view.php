@@ -178,6 +178,7 @@ class ViewPlugin extends Plugin
      */
     public function onPageProcessed($event) {
 
+        /* @var Page $page */
         $page = $event['page'];
 
         if ('modular/view' == $page->value('name')) {
