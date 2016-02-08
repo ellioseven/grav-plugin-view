@@ -34,16 +34,6 @@ form:
                   label: Modular Template
                   placeholder: eg: partials/view
                   help: Specify a template to use display view collection
-                header.view.pagination:
-                  type: toggle
-                  label: Pagination
-                  help: Enable/disable pagination for the view collection
-                  default: 0
-                  options:
-                    1: Yes
-                    0: No
-                  validate:
-                    type: bool
             advanced:
               type: section
               title: Advanced
