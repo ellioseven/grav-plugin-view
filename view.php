@@ -164,8 +164,25 @@ class ViewPlugin extends Plugin
 
     }
 
+    /**
+     * Implements 'onPageProcessed' event.
+     * - Sets parent page header pagination to true, enabling the pagination
+     * plugin to run for this page.
+     *
+     * @param $event
+     */
+    public function onPageProcessed($event) {
 
+        /* @var Page $page */
+        $page = $event['page'];
 
+        // If page is a view.
+        if ('modular/view' == $page->value('name')) {
+            $params = $this->getParams($page);
+            if (isset($params['pagination']) && $params['pagination']) {
+                $page->parent()->modifyHeader('pagination', true);
+            }
+        }
 
     }
 
