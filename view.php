@@ -111,13 +111,15 @@ class ViewPlugin extends Plugin
      */
     private function getParams($page) {
 
-        $params = 'content';
+        $params = array();
 
         // Check for params in page header.
         if (isset($page->header()->view['params'])) {
 
             // Convert from Yaml.
-            $params = (array) YamlParser::parse($page->header()->view['params']);
+            if (is_readable($page->header()->view['params'])) {
+                $params = (array) YamlParser::parse($page->header()->view['params']);
+            }
 
             // Items are needed. Get page children by default.
             if (!isset($params['items'])) {
