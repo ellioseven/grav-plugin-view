@@ -14,7 +14,7 @@ form:
               title: Basic
               underline: true
               fields:
-                header.view.page:
+                header.view.reference:
                   type: pages
                   label: Page
                   help: Specify a page to retreive view collection
