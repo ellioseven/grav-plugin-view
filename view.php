@@ -126,11 +126,11 @@ class ViewPlugin extends Plugin
             catch(\Exception $e) {
                 $this->grav['messages']->add('Caught exception: ' .  $e->getMessage() . "\n");
             }
+        }
 
-            // Items are needed. Get page children by default.
-            if (!isset($params['items'])) {
-                $params['items'] = '@self.children';
-            }
+        // Items are needed. Get page children by default.
+        if (!isset($params['items'])) {
+            $params['items'] = '@self.children';
         }
 
         return $params;
