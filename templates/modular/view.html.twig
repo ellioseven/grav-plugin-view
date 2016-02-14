@@ -2,7 +2,7 @@
 {% set base_url = page.parent.url %}
 {% set pagination = view.collection.params.pagination %}
 
-{# Loop through pagination #}
+{# Loop through view #}
 {% if view.collection and view.template %}
     {% include view.template ~ '.html.twig' with {'view': view} %}
 {% endif %}
