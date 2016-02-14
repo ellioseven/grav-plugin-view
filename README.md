@@ -59,7 +59,7 @@ A simple template may look like so:
 ```
 <h1>{{ page.title }}</h1>
 <ul>
-    {% for item in view.items %}
+    {% for item in view.collection %}
         <li>{{ item.title }}</li>
     {% endfor %}
 </ul>
