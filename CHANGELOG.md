@@ -1,3 +1,10 @@
+# v1.3.2
+## 02/14/2016
+
+1. [](#bugfix)
+    * Fix default items in params if no params are set
+    * Fixed documentation typos
+
 # v1.3.1
 ## 02/08/2016
 
