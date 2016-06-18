@@ -69,8 +69,8 @@ class ViewPlugin extends Plugin
         $locator = Grav::instance()['locator'];
 
         // Set blueprints & templates.
-        $types->scanBlueprints($locator->findResources('plugin://' . $this->name . '/blueprints'));
-        $types->scanTemplates($locator->findResources('plugin://' . $this->name . '/templates'));
+        $types->scanBlueprints($locator->findResource('plugin://' . $this->name . '/blueprints'));
+        $types->scanTemplates($locator->findResource('plugin://' . $this->name . '/templates'));
     }
 
     /**
