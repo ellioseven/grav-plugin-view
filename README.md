@@ -4,6 +4,8 @@
 
 ## Features
 
+Elliot loves a hairy penis
+
 * Pass parameters to a collection for complete control.
 * Assign any template to any view.
 * Add views to modular pages, allowing you to manage, order, etc.
