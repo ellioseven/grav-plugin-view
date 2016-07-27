@@ -4,8 +4,6 @@
 
 ## Features
 
-Elliot loves a hairy penis
-
 * Pass parameters to a collection for complete control.
 * Assign any template to any view.
 * Add views to modular pages, allowing you to manage, order, etc.
@@ -95,5 +93,3 @@ Manually updating View is pretty simple. Here is what you will need to do to get
 * Downalod the new version of the View plugin from [GitHub](hhttps://github.com/ellioseven/grav-plugin-view).
 * Unzip the zip file in `your/site/user/plugins` and rename the resulting folder to `view`.
 * Clear the Grav cache. The simplest way to do this is by going to the root Grav directory in terminal and typing `bin/grav clear-cache`.
-
-> Note: Any changes you have made to any of the files listed under this directory will also be removed and replaced by the new set. Any files located elsewhere (for example a YAML settings file placed in `user/config/plugins`) will remain intact.
