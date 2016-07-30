@@ -1,3 +1,9 @@
+# v1.3.3
+## 07/30/2016
+
+1. [](#bugfix)
+    * Pass a string to scanBlueprints instead of an array
+
 # v1.3.2
 ## 02/14/2016
 
