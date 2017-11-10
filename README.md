@@ -69,8 +69,7 @@ A simple template may look like so:
 
 ### Default View Template
 
-You can also define a default template as a fallback in the plugin configuration )`http://example
-.com/admin/plugins/view`).
+You can also define a default template as a fallback in the plugin configuration )`http://example.com/admin/plugins/view`).
 
 [Page collections](http://learn.getgrav.org/content/collections) are very powerful here, and allow you to filter the 
 output of the page collection into your view.
