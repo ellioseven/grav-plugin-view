@@ -1,3 +1,11 @@
+# v1.3.4
+## 11/10/2017
+
+1. [](#new)
+    * Added an overview video to README.md
+1. [](#improved)
+    * Type checking hooks
+
 # v1.3.3
 ## 07/30/2016
 
