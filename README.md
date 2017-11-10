@@ -2,6 +2,8 @@
 
 `View` is a [Grav](http://github.com/getgrav/grav) plugin that allows you find a page and send the collection to a template.
 
+**[Watch the Intro Video](https://youtu.be/wy3OgNIddoc)**
+
 ## Features
 
 * Pass parameters to a collection for complete control.
