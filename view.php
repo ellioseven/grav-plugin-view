@@ -149,7 +149,7 @@ class ViewPlugin extends Plugin
         $reference = isset($page->header()->view['reference']) ? $page->header()->view['reference'] : '/';
         $params = isset($page->header()->view['params']) ? $page->header()->view['params'] : 'content';
         $filter = isset($page->header()->view['filter']) ? $page->header()->view['filter'] : false;
-        $pagination = isset($params['pagination']) ? $params['pagination'] : false;
+        $pagination = is_array($params) && !empty($params['pagination']) ? $params['pagination'] : false;
 
         // Check if reference root.
         if ($reference !== '/') {
