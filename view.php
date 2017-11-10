@@ -5,19 +5,21 @@ namespace Grav\Plugin;
 use \Grav\Common\Plugin;
 use \Grav\Common\Grav;
 use \Grav\Common\Page;
-use OAuth\Common\Exception\Exception;
+use Grav\Common\Twig\Twig;
+use RocketTheme\Toolbox\Event\Event;
 use \Symfony\Component\Yaml\Yaml as YamlParser;
 
 class ViewPlugin extends Plugin
 {
 
     /**
-     * @var Page
+     * @var Page\Page
      */
     private $reference;
 
     /**
      * Implements 'getSubscribedEvents' event.
+     *
      * - Assigns plugin listeners.
      *
      * @return array
@@ -36,6 +38,7 @@ class ViewPlugin extends Plugin
 
     /**
      * Implements 'onPluginsInitialized' event.
+     *
      * - Set plugin as active.
      */
     public function onPluginsInitialized()
@@ -47,6 +50,7 @@ class ViewPlugin extends Plugin
 
     /**
      * Implements 'onTwigTemplatePaths' event.
+     *
      * - Add twig paths to instance.
      */
     public function onTwigTemplatePaths()
@@ -57,15 +61,16 @@ class ViewPlugin extends Plugin
 
     /**
      * Implements 'onGetPageTemplates' event.
+     *
      * - Add blueprints & templates to instance.
      *
      * @param $event
      */
-    public function onGetPageTemplates($event)
+    public function onGetPageTemplates(Event $event)
     {
+        /* @var Page\Types $types */
         $types = $event->types;
 
-        /* @var Locator $locator */
         $locator = Grav::instance()['locator'];
 
         // Set blueprints & templates.
@@ -75,13 +80,14 @@ class ViewPlugin extends Plugin
 
     /**
      * Implements 'onTwigPageVariables' event.
+     *
      * - Set view vars to page header.
      *
      * @param $event
      */
-    public function onTwigPageVariables($event)
+    public function onTwigPageVariables(Event $event)
     {
-        /** @var Page $page */
+        /** @var Page\Page $page */
         $page = $event['page'];
 
         /** @var Twig $twig */
@@ -101,17 +107,17 @@ class ViewPlugin extends Plugin
         // Set twig vars.
         $twig->twig_vars['view']['collection'] = $this->getCollection($page);
         $twig->twig_vars['view']['template'] = $config->get('template');
-
     }
 
     /**
      * Get and parse params from page header.
      *
      * @param $page
+     *
      * @return array|string
      */
-    private function getParams($page) {
-
+    private function getParams(Page\Page $page)
+    {
         $params = array();
 
         // Check for params in page header.
@@ -134,17 +140,17 @@ class ViewPlugin extends Plugin
         }
 
         return $params;
-
     }
 
     /**
      * Get and parse view collection from page header.
      *
      * @param $page
+     *
      * @return mixed
      */
-    private function getCollection($page) {
-
+    private function getCollection(Page\Page $page)
+    {
         // Get vars.
         $reference = isset($page->header()->view['reference']) ? $page->header()->view['reference'] : '/';
         $params = isset($page->header()->view['params']) ? $page->header()->view['params'] : 'content';
@@ -155,33 +161,33 @@ class ViewPlugin extends Plugin
         if ($reference !== '/') {
             // Set the reference page, used for filtering.
             $this->reference = $page->find($reference);
-            /* @var Collection $collection */
+            /* @var Page\Collection $collection */
             $collection = $this->reference->collection($params, $pagination);
         } else {
-            /* @var Collection $collection */
+            /* @var Page\Collection $collection */
             $collection = $page->collection($params, $pagination);
         }
 
-        // Filter the page collection.
+        // Remove parent pages from page collection.
         if ($collection && $filter) {
-            /* @var Collection $collection */
+            /* @var Page\Collection $collection */
             $collection = $collection->filter(array($this, 'filter'));
         }
 
         return $collection;
-
     }
 
     /**
      * Implements 'onPageProcessed' event.
+     *
      * - Sets parent page header pagination to true, enabling the pagination
      * plugin to run for this page.
      *
      * @param $event
      */
-    public function onPageProcessed($event) {
-
-        /* @var Page $page */
+    public function onPageProcessed(Event $event)
+    {
+        /* @var Page\Page $page */
         $page = $event['page'];
 
         // If page is a view.
@@ -191,7 +197,6 @@ class ViewPlugin extends Plugin
                 $page->parent()->modifyHeader('pagination', true);
             }
         }
-
     }
 
     /**
@@ -199,11 +204,12 @@ class ViewPlugin extends Plugin
      *
      * @param $value
      * @param $key
+     *
      * @return bool
      */
-    public function filter($value, $key) {
-
-        /* @var Collection $children */
+    public function filter($value, $key)
+    {
+        /* @var Page\Collection $children */
         $children = $this->reference->children();
 
         // If key is not in reference page collection, filter it from results.
@@ -212,7 +218,6 @@ class ViewPlugin extends Plugin
         } else {
             return false;
         }
-
     }
 
 }
